@@ -35,7 +35,7 @@ SDA             GPIO11
 ST7789_rst      GPIO10
 ST7789_dc       GPIO9
 
-Bibliotheken
+Bibliotheken in der Repository vorhanden
 st7789.py
 dfplayermini.py
 """
