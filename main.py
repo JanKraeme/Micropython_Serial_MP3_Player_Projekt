@@ -175,6 +175,8 @@ def stopp_gedrueckt():
 def rueckwaerts_gedrueckt():
   global rueckwaerts_press
   global track_ID
+  global zustand
+  global track_start
   global sekunden, minuten
     # Bei Zustandsänderung Variablen an den Zustand anpassen
   if not rueckwaerts_press:
@@ -186,6 +188,8 @@ def rueckwaerts_gedrueckt():
         track_ID = 1
     else:
         track_ID -= 1
+    zustand = "Play"
+    track_start = True
     rueckwaerts_press = True
     display_update()
 
@@ -193,6 +197,8 @@ def rueckwaerts_gedrueckt():
 def vorwaertss_gedrueckt():
   global vorwaerts_press
   global track_ID
+  global zustand
+  global track_start
   global sekunden, minuten
     # Bei Zustandsänderung Variablen an den Zustand anpassen
   if not vorwaerts_press:
@@ -202,6 +208,8 @@ def vorwaertss_gedrueckt():
     sekunden = 0
     minuten = 0
     track_ID += 1 #zeige nächsten Titel an
+    zustand = "Play"
+    track_start = True
     vorwaerts_press = True
     display_update()
   
