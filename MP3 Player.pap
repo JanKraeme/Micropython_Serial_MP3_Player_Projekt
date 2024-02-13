@@ -1,0 +1,205 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<FRAME GUID="2FB25471-B62C-4EE6-BD43-F819C095ACF8" FORMAT="0000" APP_VERSION="2.2.0.8" CHECKSUM="63E93F5CC5D397F0">
+  <PROJECT FORMAT="1.00" NAME="Klassenarbeit_Umwelt" AUTHOR="Jan" CREATED="2023.12.12 10:12:08" MODIFIED="2024.02.09 16:48:58">
+    <DIAGRAMS>
+      <DIAGRAM FORMAT="1.00" ID="0" NAME="Hauptprogramm 1" CREATED="2023.12.12 10:13:03" MODIFIED="2024.02.09 16:48:58">
+        <LAYOUT FORMAT="1.00" COLUMNS="6" ROWS="12">
+          <ENTRIES>
+            <ENTRY COLUMN="0" ROW="4">
+              <FIGURE SUBTYPE="PapConnector" FORMAT="1.00" ID="236">
+                <TEXT><![CDATA[]]></TEXT>
+              </FIGURE>
+            </ENTRY>
+            <ENTRY COLUMN="0" ROW="6">
+              <FIGURE SUBTYPE="PapConnector" FORMAT="1.00" ID="360">
+                <TEXT><![CDATA[]]></TEXT>
+              </FIGURE>
+            </ENTRY>
+            <ENTRY COLUMN="0" ROW="10">
+              <FIGURE SUBTYPE="PapConnector" FORMAT="1.00" ID="265">
+                <TEXT><![CDATA[]]></TEXT>
+              </FIGURE>
+            </ENTRY>
+            <ENTRY COLUMN="1" ROW="0" ANCHOR="True">
+              <FIGURE SUBTYPE="PapTitle" FORMAT="1.00" ID="0">
+                <TEXT><![CDATA[Hauptprogramm 1]]></TEXT>
+              </FIGURE>
+            </ENTRY>
+            <ENTRY COLUMN="1" ROW="1">
+              <FIGURE SUBTYPE="PapStart" FORMAT="1.00" ID="1">
+                <TEXT><![CDATA[Start]]></TEXT>
+              </FIGURE>
+            </ENTRY>
+            <ENTRY COLUMN="1" ROW="2">
+              <FIGURE SUBTYPE="PapActivity" FORMAT="1.00" ID="39">
+                <TEXT><![CDATA[Initialisierung]]></TEXT>
+              </FIGURE>
+            </ENTRY>
+            <ENTRY COLUMN="1" ROW="3">
+              <FIGURE SUBTYPE="PapActivity" FORMAT="1.00" ID="268">
+                <TEXT><![CDATA[Text auf Display ausgeben]]></TEXT>
+              </FIGURE>
+            </ENTRY>
+            <ENTRY COLUMN="1" ROW="4">
+              <FIGURE SUBTYPE="PapConnector" FORMAT="1.00" ID="65">
+                <TEXT><![CDATA[]]></TEXT>
+              </FIGURE>
+            </ENTRY>
+            <ENTRY COLUMN="1" ROW="5">
+              <FIGURE SUBTYPE="PapInput" FORMAT="1.00" ID="68">
+                <TEXT><![CDATA[taster Einlesen]]></TEXT>
+              </FIGURE>
+            </ENTRY>
+            <ENTRY COLUMN="1" ROW="6">
+              <FIGURE SUBTYPE="PapCondition" FORMAT="1.00" ID="278">
+                <TEXT><![CDATA[Play gedrückt?]]></TEXT>
+              </FIGURE>
+            </ENTRY>
+            <ENTRY COLUMN="1" ROW="7">
+              <FIGURE SUBTYPE="PapActivity" FORMAT="1.00" ID="22">
+                <TEXT><![CDATA[Zustands Variable invertieren]]></TEXT>
+              </FIGURE>
+            </ENTRY>
+            <ENTRY COLUMN="1" ROW="8">
+              <FIGURE SUBTYPE="PapActivity" FORMAT="1.00" ID="279">
+                <TEXT><![CDATA[Timer starten]]></TEXT>
+              </FIGURE>
+            </ENTRY>
+            <ENTRY COLUMN="1" ROW="9">
+              <FIGURE SUBTYPE="PapActivity" FORMAT="1.00" ID="262">
+                <TEXT><![CDATA[Komando bytes an das MP3 Modul übertragen
+Display aktualisieren]]></TEXT>
+              </FIGURE>
+            </ENTRY>
+            <ENTRY COLUMN="1" ROW="10">
+              <FIGURE SUBTYPE="PapActivity" FORMAT="1.00" ID="264">
+                <TEXT><![CDATA[Button Variable zurücksetzen]]></TEXT>
+              </FIGURE>
+            </ENTRY>
+            <ENTRY COLUMN="1" ROW="11">
+              <FIGURE SUBTYPE="PapEnd" FORMAT="1.00" ID="2">
+                <TEXT><![CDATA[Ende]]></TEXT>
+              </FIGURE>
+            </ENTRY>
+            <ENTRY COLUMN="2" ROW="6">
+              <FIGURE SUBTYPE="PapCondition" FORMAT="1.00" ID="285">
+                <TEXT><![CDATA[Pause gedrückt?]]></TEXT>
+              </FIGURE>
+            </ENTRY>
+            <ENTRY COLUMN="2" ROW="7">
+              <FIGURE SUBTYPE="PapActivity" FORMAT="1.00" ID="352">
+                <TEXT><![CDATA[Zustands Variable invertieren]]></TEXT>
+              </FIGURE>
+            </ENTRY>
+            <ENTRY COLUMN="2" ROW="8">
+              <FIGURE SUBTYPE="PapActivity" FORMAT="1.00" ID="295">
+                <TEXT><![CDATA[Timer pausieren]]></TEXT>
+              </FIGURE>
+            </ENTRY>
+            <ENTRY COLUMN="2" ROW="9">
+              <FIGURE SUBTYPE="PapConnector" FORMAT="1.00" ID="302">
+                <TEXT><![CDATA[]]></TEXT>
+              </FIGURE>
+            </ENTRY>
+            <ENTRY COLUMN="3" ROW="6">
+              <FIGURE SUBTYPE="PapCondition" FORMAT="1.00" ID="288">
+                <TEXT><![CDATA[Stopp gedrückt?]]></TEXT>
+              </FIGURE>
+            </ENTRY>
+            <ENTRY COLUMN="3" ROW="7">
+              <FIGURE SUBTYPE="PapActivity" FORMAT="1.00" ID="354">
+                <TEXT><![CDATA[Zustands Variable invertieren]]></TEXT>
+              </FIGURE>
+            </ENTRY>
+            <ENTRY COLUMN="3" ROW="8">
+              <FIGURE SUBTYPE="PapActivity" FORMAT="1.00" ID="296">
+                <TEXT><![CDATA[Timer pausieren und auf 0 setzen]]></TEXT>
+              </FIGURE>
+            </ENTRY>
+            <ENTRY COLUMN="3" ROW="9">
+              <FIGURE SUBTYPE="PapConnector" FORMAT="1.00" ID="305">
+                <TEXT><![CDATA[]]></TEXT>
+              </FIGURE>
+            </ENTRY>
+            <ENTRY COLUMN="4" ROW="6">
+              <FIGURE SUBTYPE="PapCondition" FORMAT="1.00" ID="289">
+                <TEXT><![CDATA[Weiter gedrückt?]]></TEXT>
+              </FIGURE>
+            </ENTRY>
+            <ENTRY COLUMN="4" ROW="7">
+              <FIGURE SUBTYPE="PapActivity" FORMAT="1.00" ID="356">
+                <TEXT><![CDATA[Zustands Variable invertieren]]></TEXT>
+              </FIGURE>
+            </ENTRY>
+            <ENTRY COLUMN="4" ROW="8">
+              <FIGURE SUBTYPE="PapActivity" FORMAT="1.00" ID="297">
+                <TEXT><![CDATA[Timer auf 0 setzen]]></TEXT>
+              </FIGURE>
+            </ENTRY>
+            <ENTRY COLUMN="4" ROW="9">
+              <FIGURE SUBTYPE="PapConnector" FORMAT="1.00" ID="308">
+                <TEXT><![CDATA[]]></TEXT>
+              </FIGURE>
+            </ENTRY>
+            <ENTRY COLUMN="5" ROW="6">
+              <FIGURE SUBTYPE="PapCondition" FORMAT="1.00" ID="290">
+                <TEXT><![CDATA[Zurück gedrückt?]]></TEXT>
+              </FIGURE>
+            </ENTRY>
+            <ENTRY COLUMN="5" ROW="7">
+              <FIGURE SUBTYPE="PapActivity" FORMAT="1.00" ID="358">
+                <TEXT><![CDATA[Zustands Variable invertieren]]></TEXT>
+              </FIGURE>
+            </ENTRY>
+            <ENTRY COLUMN="5" ROW="8">
+              <FIGURE SUBTYPE="PapActivity" FORMAT="1.00" ID="298">
+                <TEXT><![CDATA[Timer auf 0 setzen]]></TEXT>
+              </FIGURE>
+            </ENTRY>
+            <ENTRY COLUMN="5" ROW="9">
+              <FIGURE SUBTYPE="PapConnector" FORMAT="1.00" ID="311">
+                <TEXT><![CDATA[]]></TEXT>
+              </FIGURE>
+            </ENTRY>
+          </ENTRIES>
+        </LAYOUT>
+        <CONNECTIONS>
+          <CONNECTION FORMAT="1.00" ID="3" FROM="1" TO="39" TEXT="" />
+          <CONNECTION FORMAT="1.00" ID="351" FROM="22" TO="279" TEXT="" />
+          <CONNECTION FORMAT="1.00" ID="237" FROM="236" TO="65" TEXT="" />
+          <CONNECTION FORMAT="1.00" ID="280" FROM="278" TO="22" TEXT="ja" />
+          <CONNECTION FORMAT="1.00" ID="266" FROM="264" TO="265" TEXT="" />
+          <CONNECTION FORMAT="1.00" ID="40" FROM="39" TO="268" TEXT="" />
+          <CONNECTION FORMAT="1.00" ID="269" FROM="268" TO="65" TEXT="" />
+          <CONNECTION FORMAT="1.00" ID="66" FROM="65" TO="68" TEXT="" />
+          <CONNECTION FORMAT="1.00" ID="361" FROM="360" TO="236" TEXT="" />
+          <CONNECTION FORMAT="1.00" ID="362" FROM="278" TO="360" TEXT="" />
+          <CONNECTION FORMAT="1.00" ID="267" FROM="265" TO="360" TEXT="" />
+          <CONNECTION FORMAT="1.00" ID="270" FROM="262" TO="264" TEXT="" />
+          <CONNECTION FORMAT="1.00" ID="282" FROM="279" TO="262" TEXT="" />
+          <CONNECTION FORMAT="1.00" ID="284" FROM="278" TO="285" TEXT="nein" />
+          <CONNECTION FORMAT="1.00" ID="287" FROM="285" TO="288" TEXT="nein" />
+          <CONNECTION FORMAT="1.00" ID="291" FROM="288" TO="289" TEXT="nein" />
+          <CONNECTION FORMAT="1.00" ID="292" FROM="289" TO="290" TEXT="nein" />
+          <CONNECTION FORMAT="1.00" ID="294" FROM="285" TO="352" TEXT="ja" />
+          <CONNECTION FORMAT="1.00" ID="299" FROM="288" TO="354" TEXT="ja" />
+          <CONNECTION FORMAT="1.00" ID="300" FROM="289" TO="356" TEXT="ja" />
+          <CONNECTION FORMAT="1.00" ID="301" FROM="290" TO="358" TEXT="" />
+          <CONNECTION FORMAT="1.00" ID="303" FROM="295" TO="302" TEXT="" />
+          <CONNECTION FORMAT="1.00" ID="304" FROM="302" TO="262" TEXT="" />
+          <CONNECTION FORMAT="1.00" ID="306" FROM="296" TO="305" TEXT="" />
+          <CONNECTION FORMAT="1.00" ID="307" FROM="305" TO="302" TEXT="" />
+          <CONNECTION FORMAT="1.00" ID="309" FROM="297" TO="308" TEXT="" />
+          <CONNECTION FORMAT="1.00" ID="310" FROM="308" TO="305" TEXT="" />
+          <CONNECTION FORMAT="1.00" ID="312" FROM="298" TO="311" TEXT="" />
+          <CONNECTION FORMAT="1.00" ID="313" FROM="311" TO="308" TEXT="" />
+          <CONNECTION FORMAT="1.00" ID="69" FROM="68" TO="278" TEXT="" />
+          <CONNECTION FORMAT="1.00" ID="353" FROM="352" TO="295" TEXT="" />
+          <CONNECTION FORMAT="1.00" ID="355" FROM="354" TO="296" TEXT="" />
+          <CONNECTION FORMAT="1.00" ID="357" FROM="356" TO="297" TEXT="" />
+          <CONNECTION FORMAT="1.00" ID="359" FROM="358" TO="298" TEXT="" />
+        </CONNECTIONS>
+      </DIAGRAM>
+    </DIAGRAMS>
+  </PROJECT>
+</FRAME>

@@ -1,29 +1,32 @@
 """
-ESP32-DevKitC V4/MicroPython exercise
-240x240 ST7789 SPI LCD
-using MicroPython library:
-https://github.com/russhughes/st7789py_mpy
+Autor: Jan Krämer
+Kurs: ETS23 Microcontroller - Micropython
+Klassenarbeit Nr.1 Teil 1
+Datum: 09.02.2024
 
-"""
-#Überarbeitet Jan Krämer 27.11.2023
-import uos
-from machine import Pin, I2C, UART
-import machine
-import st7789py as st7789
-from fonts import vga1_16x32 as font
-from dfplayermini import Player
-from time import sleep
+Das Programm steuer über die Serielle Schnittstelle den Serial MP3 Player an.
+Bei betätigen eines Tasters werden die jeweiligen kommando Bytes an den Player übertragen.
+Auf dem Display werden Titelnummer, aktueller Zustand (Play, Pause oder Stopp), und die Spielzeit Übertragen.
+Auf der SD-Karte ist Musik im MP3 Format gespeichert. Damit der Player diese aufrufen kann, müssen
+die Titel umbenannt werden in 01xxx.mp3, 02xxx.mp3 usw. und in einen Ordner mit dem Namen 01 geladen werden.
 
-music = Player(pin_TX=17, pin_RX=16)
+Benötigt:
+ - Espressif ESP32 S3
+ - 5x Pulldown Taster
+ - Serial MP3 Player Modul
+ - ST7789 Display
+ 
+Taster:
+Taster Play     GPIO4
+Taster Pause    GPIO5
+Taster Stopp    GPIO6
+Taster zurück   GPIO7
+Taster weiter   GPIO15
 
-# Initialisierung
-play_press = False
-pause_press = False
-stopp_press = False
-rueckwaerts_press = False
-vorwaerts_press = False
+Serial MP3 Player:
+RX GPIO16
+TX GPIO17
 
-"""
 ST7789 Display  ESP32-DevKitC (SPI2)
 SCL             GPIO13
 SDA             GPIO11
@@ -31,20 +34,51 @@ SDA             GPIO11
 
 ST7789_rst      GPIO10
 ST7789_dc       GPIO9
-"""
-#ST7789 use SPI(2)
 
-CMD_PLAY = const(0x0D)
+Bibliotheken
+st7789.py
+dfplayermini.py
+"""
+#Überarbeitet Jan Krämer 27.11.2023
+import uos
+from machine import Pin, I2C, UART
+import machine
+import st7789py as st7789
+from fonts import vga1_16x16 as font
+from dfplayermini import Player
+from time import ticks_ms, ticks_diff
+
+music = Player(pin_TX=17, pin_RX=16)
+
+# Initialisierung der Taster
+play_press = False
+pause_press = False
+stopp_press = False
+rueckwaerts_press = False
+vorwaerts_press = False
+
+# Initialisierung für MP3 player und Display Infos
+track_ID = 1
+zustand = ""
+track_start = False
+#Zeitvariablen
+zeit = 0
+sekunden = 0
+minuten = 0
+alte_zeit = 0
+
+#Konfiguration der Seriellen Schnittstelle
 uart = UART(1, 9600, tx=17, rx=18)           # init with given baudrate
 uart.init(9600, bits=8, parity=None, stop=1) # init with given parameters
 
-#IN/OUT deklarieren
+#IN/OUT Display deklarieren
 st7789_res = 10
 st7789_dc  = 9
 pin_st7789_res = machine.Pin(st7789_res, machine.Pin.OUT)
 pin_st7789_dc = machine.Pin(st7789_dc, machine.Pin.OUT)
 
-#Buttons
+#Eingänge
+#Taster
 play = Pin(4, Pin.IN)
 pause = Pin(5, Pin.IN)
 stopp = Pin(6, Pin.IN)
@@ -79,100 +113,167 @@ display = st7789.ST7789(spi2, disp_width, disp_width,
                           dc=pin_st7789_dc,
                           xstart=0, ystart=0, rotation=0)
 
-#einmal nachschauen
-print(display)
+#Bei erstem Start die Lautstärke auf Maximum
+print("set volume")
+music.volume(15) #maximales Volume
 
+#Start Text ausgeben
+display.fill(st7789.BLACK)
+display.text(font, "MP3 Player", 20, 20)
+display.text(font, "Track: {0}".format(track_ID), 20, 100)
+display.text(font, "Play druecken", 20, 180)
+
+#Play Funktion
 def play_gedrueckt():
   global play_press
-    # Taste nur ausgeben, wenn sie nicht bereits gedrückt ist
+  global zustand
+  global track_start
+    # Bei Zustandsänderung Variablen an den Zustand anpassen
   if not play_press:
     print("start play")
-    music.play()
+    zustand = "Play"
+    music.play() #sende Befehl bytes für Play (0x0D)
+    track_start = True
     play_press = True
+    display_update()
 
+#Pause Funktion
 def pause_gedrueckt():
   global pause_press
-    # Taste nur ausgeben, wenn sie nicht bereits gedrückt ist
+  global zustand
+  global track_start
+    # Bei Zustandsänderung Variablen an den Zustand anpassen
   if not pause_press:
     print("pause")
-    music.pause()
+    zustand = "Pause"
+    track_start = False
+    music.pause() #sende Befehl bytes für pause (0x0E)
     pause_press = True
-    
+    display_update()
+
+#Stopp Funktion 
 def stopp_gedrueckt():
   global stopp_press
-    # Taste nur ausgeben, wenn sie nicht bereits gedrückt ist
+  global track_ID
+  global zustand
+  global track_start
+  global sekunden, minuten
+    # Bei Zustandsänderung Variablen an den Zustand anpassen
   if not stopp_press:
     print("stopp")
-    music.stop()
+    zustand = "Stopp"
+    music.stop() #sende Befehl bytes für stopp (0x16)
+    track_start = False
+    #zeit zurücksetzen
+    sekunden = 0
+    minuten = 0
+    track_ID += 1
     stopp_press = True
-    
+    display_update()
+
+#Titel zurück Funktion
 def rueckwaerts_gedrueckt():
   global rueckwaerts_press
-    # Taste nur ausgeben, wenn sie nicht bereits gedrückt ist
+  global track_ID
+  global sekunden, minuten
+    # Bei Zustandsänderung Variablen an den Zustand anpassen
   if not rueckwaerts_press:
     print("rueckwaerts")
-    music.play('prev')
+    music.play('prev') #sende Befehl bytes für zurück (0x02)
+    sekunden = 0
+    minuten = 0
+    if track_ID == 1:
+        track_ID = 1
+    else:
+        track_ID -= 1
     rueckwaerts_press = True
-    
+    display_update()
+
+#Titel weiter Funktion    
 def vorwaertss_gedrueckt():
   global vorwaerts_press
-    # Taste nur ausgeben, wenn sie nicht bereits gedrückt ist
+  global track_ID
+  global sekunden, minuten
+    # Bei Zustandsänderung Variablen an den Zustand anpassen
   if not vorwaerts_press:
     print("vorwaerts")
-    music.play('next')
+    music.play('next') #sende Befehl bytes für weiter (0x01)
+    #Zeit auf 0 setzen
+    sekunden = 0
+    minuten = 0
+    track_ID += 1 #zeige nächsten Titel an
     vorwaerts_press = True
+    display_update()
   
-        
-print("set volume")
-music.volume(20)
+#Funktion zur Darstellung der Track Infos        
+def display_update():
+    #Text ausgeben
+    display.text(font, "Track:     ", 20, 100)
+    display.text(font, "Track: {0}".format(track_ID), 20, 100)
+    display.text(font, "0:0 ", 20, 140)
+    display.text(font, "                     ", 20, 180)
+    display.text(font, zustand, 20, 180)
 
+#Funktion zur Darstellung der Spielzeit
+def display_zeit():
+    #Zeit ausgeben
+    display.text(font, "{0}:{1} ".format(minuten, sekunden), 20, 140)
+    if sekunden > 59: #wenn eine minute um ist, muss die Null entfernt werden durch überschreiben...
+        display.text(font, "{0}:{1} ".format(minuten, sekunden), 20, 140)
 
+#loop
 while True:
+    #Auslesen der Taster Pins
     play_val = play.value()
     pause_val = pause.value()
     stopp_val = stopp.value()
     rueckwaerts_val = rueckwaerts.value()
     vorwaerts_val = vorwaerts.value()
-    #print(pause_val)
+    
+    #Zeit setzen
+    neue_zeit = ticks_ms()
+      
+    #Wenn Musik läuft dann Zeitberechnung
+    if track_start == True:
+        if (ticks_diff(neue_zeit, alte_zeit) > 1000): #Wenn die differenz zwischen neue_zeit und alte_zeit >= 1000ms...
+            sekunden += 1
+            print(sekunden)
+            alte_zeit = neue_zeit #Setze alte_zeit auf den Wert von neue_zeit
+            display_zeit()
+            if sekunden > 59: #wenn eine minute rum ist dann minute um 1 erhöhen
+                sekunden = 0
+                minuten += 1
+    else:
+        display_zeit()
+
+    #Wenn Taste gedrückt, dann Funktion aufrufen
     if play_val == True:
         play_gedrueckt()
-        display.text(font, "play", 20, 20)
-    elif play_val == False:
+    elif play_val == False: # Taste als "nicht gedrückt" markieren, wenn sie losgelassen wird
         play_press = False
         
     if pause_val == True:
         pause_gedrueckt()
-        display.text(font, "pause", 20, 20)
     elif pause_val == False:
         pause_press = False
         
     if stopp_val == True:
         stopp_gedrueckt()
-        display.text(font, "stopp", 20, 20)
     elif stopp_val == False:
         stopp_press = False
 
     if rueckwaerts_val == True:
         rueckwaerts_gedrueckt()
-        display.text(font, "zu", 20, 20)
     elif rueckwaerts_val == False:
         rueckwaerts_press = False
 
     if vorwaerts_val == True:
         vorwaertss_gedrueckt()
-        display.text(font, "vor", 20, 20)
     elif vorwaerts_val == False:
         vorwaerts_press = False
 
 
 
-#Test Text ausgeben
-display.fill(st7789.BLACK)
-display.text(font, "Hello!", 20, 20)
-display.text(font, "ESP32", 20, 50)
-display.text(font, "MicroPython", 20, 80)
-display.text(font, "ST7789 SPI", 20, 110)
-display.text(font, "240*280 IPS", 20, 180)
 
 
 
